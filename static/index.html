@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRM 续期提醒中心</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">CRM Renewal Radar</p>
+          <h1>客户续期提醒中心</h1>
+          <p class="hero-copy">
+            根据 Excel 中 S 列“报告落款日”自动推算续期日，提前 3 个月提醒签约人；同一客户若有多年报告，只按最新一次报告时间提醒。
+          </p>
+        </div>
+        <div class="hero-actions">
+          <button id="reloadButton" class="secondary-button">重新加载 Excel</button>
+          <button id="notifyButton" class="primary-button">启用桌面提醒</button>
+        </div>
+      </header>
+
+      <section class="panel source-panel">
+        <div>
+          <div class="meta-label">数据源</div>
+          <div id="excelPath" class="meta-value">载入中...</div>
+        </div>
+        <div>
+          <div class="meta-label">当前日期</div>
+          <div id="todayValue" class="meta-value">-</div>
+        </div>
+        <div>
+          <div class="meta-label">最近加载</div>
+          <div id="loadedAt" class="meta-value">-</div>
+        </div>
+      </section>
+
+      <section class="stats-grid" id="statsGrid"></section>
+
+      <section class="panel filter-panel">
+        <label class="field">
+          <span>客户搜索</span>
+          <input id="searchInput" type="search" placeholder="输入主体名称、项目名称、项目编号" />
+        </label>
+        <label class="field">
+          <span>被提醒人</span>
+          <select id="recipientSelect">
+            <option value="">全部</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>提醒状态</span>
+          <select id="statusSelect">
+            <option value="all">全部</option>
+            <option value="overdue">已逾期</option>
+            <option value="due">应提醒</option>
+            <option value="upcoming">待进入提醒期</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="recipient-strip panel">
+        <div class="recipient-header">
+          <h2>重点提醒人</h2>
+          <p>按当前筛选结果中“应提醒 / 已逾期”客户数排序。</p>
+        </div>
+        <div id="recipientChips" class="recipient-chips"></div>
+      </section>
+
+      <main class="workspace">
+        <section class="panel list-panel">
+          <div class="list-header">
+            <div>
+              <h2>提醒列表</h2>
+              <p id="resultSummary">正在载入...</p>
+            </div>
+            <div class="pagination">
+              <button id="prevPageButton" class="page-button">上一页</button>
+              <span id="pageText">1 / 1</span>
+              <button id="nextPageButton" class="page-button">下一页</button>
+            </div>
+          </div>
+          <div id="reminderList" class="reminder-list"></div>
+        </section>
+
+        <aside class="panel detail-panel">
+          <div id="detailEmpty" class="detail-empty">
+            点击左侧客户名称后，这里会展示该客户的完整 Excel 信息。
+          </div>
+          <div id="detailContent" class="detail-content hidden">
+            <div class="detail-top">
+              <div>
+                <p class="eyebrow" id="detailStatus">提醒状态</p>
+                <h2 id="detailCustomerName"></h2>
+                <p id="detailProjectName" class="detail-project"></p>
+              </div>
+              <div id="detailUrgency" class="urgency-badge"></div>
+            </div>
+            <div id="detailOverview" class="detail-overview"></div>
+            <div id="detailFields" class="detail-fields"></div>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
